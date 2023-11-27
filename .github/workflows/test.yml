@@ -32,7 +32,7 @@ jobs:
           touch testartifact/hello.txt
           touch testartifact/hello2.txt
           echo "Hello" > hello.txt
-          ehco "Hello" > hello2.txt
+          echo "Hello" > hello2.txt
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3.1.3
