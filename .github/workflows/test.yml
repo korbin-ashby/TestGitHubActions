@@ -41,7 +41,7 @@ jobs:
           path: testartifact
 
       - name: Download Old Artifact
-        uses: Legit-Labs/action-download-artifact@2.18.0
+        uses: Legit-Labs/action-download-artifact@v2.18.0
         with:
           workflow: CI
           run_id: 6
