@@ -43,3 +43,13 @@ jobs:
           name: testartifact
           path: testartifact
 
+      - name: Download Old Artifact
+        uses: Legit-Labs/action-download-artifact@v2.18.0
+        with:
+          workflow: ${{ inputs.workflowYAML }}
+          run_number: ${{ inputs.runNumber }}
+          name: testartifact
+          path: download/
+
+      - name: echo downloaded files
+        run: cat download/hello.txt
