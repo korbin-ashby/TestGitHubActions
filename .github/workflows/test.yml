@@ -31,8 +31,8 @@ jobs:
           mkdir testartifact
           touch testartifact/hello.txt
           touch testartifact/hello2.txt
-          echo "Hello" > hello.txt
-          echo "Hello" > hello2.txt
+          echo "Hello" > testartifact/hello.txt
+          echo "Hello" > testartifact/hello2.txt
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3.1.3
