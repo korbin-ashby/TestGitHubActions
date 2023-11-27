@@ -4,14 +4,17 @@ name: CI
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+    inputs:
+      workflowYAML:
+        description: 'Workflow Yaml File Name'
+        required: true
+        type: string
+      runNumber:
+        description: 'Workflow Run Number'
+        required: true
+        type: string
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -37,15 +40,15 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v3.1.3
         with:
-          name: testartifact${{ github.run_number }}
+          name: testartifact
           path: testartifact
 
       - name: Download Old Artifact
         uses: Legit-Labs/action-download-artifact@v2.18.0
         with:
-          workflow: test.yml
-          run_number: 6
-          name: testartifact6
+          workflow: ${{ inputs.workflowYAML }}
+          run_number: ${{ inputs.runNumber }}
+          name: testartifact
           path: download/
 
       - name: echo downloaded files
