@@ -43,7 +43,7 @@ jobs:
       - name: Download Old Artifact
         uses: Legit-Labs/action-download-artifact@v2.18.0
         with:
-          workflow: CI
+          workflow: test.yml
           run_number: 6
           name: testartifact6
           path: download/
