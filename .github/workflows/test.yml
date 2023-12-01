@@ -52,4 +52,5 @@ jobs:
           path: download/
 
       - name: echo downloaded files
+        environment: testing
         run: cat download/hello.txt
