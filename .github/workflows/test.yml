@@ -11,7 +11,7 @@ on:
     inputs:
       workflowYAML:
         description: 'Workflow Yaml File Name'
-        default: test.yml
+        default: "test.yml"
         required: true
         type: string
       runNumber:
