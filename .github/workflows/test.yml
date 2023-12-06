@@ -49,6 +49,13 @@ jobs:
           echo "Hello" > testartifact/hello.txt
           echo "Hello" > testartifact/hello2.txt
 
+      - name: Azure Upload
+        uses: fixpoint/azblob-upload-artifact@v4
+        with:
+         connection-string: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
+         name: my-artifact
+         path: testartifact
+
       - name: Upload Artifact
         uses: actions/upload-artifact@v3.1.3
         with:
