@@ -53,7 +53,7 @@ jobs:
         uses: fixpoint/azblob-upload-artifact@v4
         with:
          connection-string: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
-         name: my-artifact
+         name: testartifact
          container: ghartifacts
          path: testartifact
 
@@ -63,13 +63,20 @@ jobs:
           name: testartifact
           path: testartifact
 
-      - name: Download Old Artifact
-        uses: Legit-Labs/action-download-artifact@v2.18.0
+      - name: Azure Download
+        uses: fixpoint/azblob-download-artifact@v3
         with:
-          workflow: ${{ inputs.workflowYAML }}
-          run_number: ${{ inputs.runNumber }}
           name: testartifact
+          connection-string: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
           path: download/
+          container: ghartifacts
+      # - name: Download Old Artifact
+      #   uses: Legit-Labs/action-download-artifact@v2.18.0
+      #   with:
+      #     workflow: ${{ inputs.workflowYAML }}
+      #     run_number: ${{ inputs.runNumber }}
+      #     name: testartifact
+      #     path: download/
 
       - name: echo downloaded files
         run: cat download/hello.txt
