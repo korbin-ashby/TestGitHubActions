@@ -54,6 +54,7 @@ jobs:
         with:
          connection-string: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
          name: my-artifact
+         container: ghartifacts
          path: testartifact
 
       - name: Upload Artifact
