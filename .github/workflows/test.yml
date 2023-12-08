@@ -52,8 +52,8 @@ jobs:
           name: testartifact
           path: testartifact
 
-      - name: Install Azure CLI
-        uses: azure/setup-az-cli@v1
+      - name: Use Azure CLI
+        uses: azure/cli@v1
         with:
           azcliversion: 'latest'
 
