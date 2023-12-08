@@ -44,10 +44,13 @@ jobs:
       - name: Run a multi-line script
         run: |
           mkdir testartifact
+          mkdir testartifact/nestedDirectory
+          touch testartifact/nestedDirectory/hello4.txt
           touch testartifact/hello.txt
           touch testartifact/hello2.txt
           echo "Hello" > testartifact/hello.txt
           echo "Hello" > testartifact/hello2.txt
+          echo "Hello" > testartifact/nestedDirectory/hello4.txt
 
       - name: Azure Upload
         uses: fixpoint/azblob-upload-artifact@v4
@@ -79,4 +82,6 @@ jobs:
       #     path: download/
 
       - name: echo downloaded files
-        run: cat download/hello.txt
+        run: |
+          cat download/hello.txt
+          cat download/nestedDirectory/hello4.txt
