@@ -56,6 +56,21 @@ jobs:
         uses: azure/cli@v1
         with:
           azcliversion: 'latest'
+        inlineScript:
+          container_name="ghartifacts"
+          storage_account="ghactionsartifactskashby"
+          sas_token="?sv=2022-11-02&ss=bfqt&srt=co&sp=rwdlacupiytfx&se=2023-12-09T06:50:38Z&st=2023-12-08T22:50:38Z&spr=https&sig=QCgrkRhnAnOm0Fqe8UcNntAqVvezq6%2BfPNvkGTyMqOY%3D"
+
+          # List blobs in the container
+          artifacts=($(az storage blob list --account-name $storage_account --container-name $container_name --sas-token $sas_token --query "[].name" --output tsv))
+
+          # Sort artifacts by last modified time
+          IFS=$'\n' sorted_artifacts=($(sort -r <<<"${artifacts[*]}"))
+
+          # Extract the second newest artifact
+          second_newest_artifact="${sorted_artifacts[1]}"
+
+          echo "::set-output name=second_newest_artifact::$second_newest_artifact"
 
       - name: List artifacts in Azure Storage
         id: list-artifacts
