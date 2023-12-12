@@ -95,9 +95,6 @@ jobs:
  
       - name: Download second newest artifact
         run: |
-          container_name="<your-container-name>"
-          storage_account="<your-storage-account-name>"
-          sas_token="<your-sas-token>"
           artifact_name="${{ steps.list-artifacts.outputs.second_newest_artifact }}"
 
           az storage blob download --account-name $storage_account --container-name $container_name --name $artifact_name --sas-token $sas_token --file $artifact_name
