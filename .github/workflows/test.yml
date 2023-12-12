@@ -98,7 +98,7 @@ jobs:
           container_name="ghartifacts"
           storage_account="ghactionsartifactskashby"
           sas_token="sp=racwdli&st=2023-12-12T21:44:01Z&se=2023-12-13T05:44:01Z&spr=https&sv=2022-11-02&sr=c&sig=wbrN0bYQNT2iSU0z9icpT8aRFxdQcYN%2FApk0xDWWIWc%3D"
-          artifact_name="${{ steps.list-artifacts.outputs.second_newest_artifact }}"
+          artifact_name="/${{ steps.list-artifacts.outputs.second_newest_artifact }}"
 
           az storage blob download --account-name $storage_account --container-name $container_name --name $artifact_name --sas-token $sas_token --file $artifact_name
 
