@@ -73,7 +73,7 @@ jobs:
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID_ARTIFACTS }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID_ARTIFACTS }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID_ARTIFACTS }}
+          # subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID_ARTIFACTS }}
 
      
       # - name: Download Old Artifact
