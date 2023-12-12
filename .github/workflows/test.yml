@@ -103,7 +103,10 @@ jobs:
 
           az storage blob download --account-name $storage_account --container-name $container_name --name $artifact_name --sas-token $sas_token --file testartifact.zip
 
-     
+
+      - name: Extract Downloaded artifact
+        shell: pwsh
+        run: Expand-Archive -Path testartifact.zip -DestinationPath download 
       # - name: Download Old Artifact
       #   uses: Legit-Labs/action-download-artifact@v2.18.0
       #   with:
@@ -112,7 +115,7 @@ jobs:
       #     name: testartifact
       #     path: download/
 
-      # - name: echo downloaded files
-      #   run: |
-      #     cat download/hello.txt
-      #     cat download/nestedDirectory/hello4.txt
+      - name: echo downloaded files
+        run: |
+          cat download/hello.txt
+          cat download/nestedDirectory/hello4.txt
