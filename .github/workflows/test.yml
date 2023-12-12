@@ -51,7 +51,7 @@ jobs:
 
       - name: zip files
         shell: pwsh
-        run: Compress-Archive -Path testartifact -DestinationPath testartifact${{ github.run_id }}.zip
+        run: Compress-Archive -Path testartifact\* -DestinationPath testartifact${{ github.run_id }}.zip
 
       - name: Azure Upload
         uses: fixpoint/azblob-upload-artifact@v4
@@ -117,7 +117,7 @@ jobs:
       #     name: testartifact
       #     path: download/
 
-      # - name: echo downloaded files
-      #   run: |
-      #     cat download/hello.txt
-      #     cat download/nestedDirectory/hello4.txt
+      - name: echo downloaded files
+        run: |
+          cat download/hello.txt
+          cat download/nestedDirectory/hello4.txt
