@@ -46,15 +46,14 @@ jobs:
         uses: fixpoint/azblob-upload-artifact@v4
         with:
          connection-string: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
-         name: testartifact
+         name: testartifact${{ github.run_id }}.zip
          container: ghartifacts
-         path: testartifact.zip
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3.1.3
         with:
           name: testartifact
-          path: /
+          path: testartifact
 
      
       # - name: Download Old Artifact
