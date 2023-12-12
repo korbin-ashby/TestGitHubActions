@@ -108,7 +108,7 @@ jobs:
         shell: pwsh
         run: |
           Expand-Archive -Path testartifact.zip -DestinationPath download
-          ls -la
+          ls -la download
       # - name: Download Old Artifact
       #   uses: Legit-Labs/action-download-artifact@v2.18.0
       #   with:
