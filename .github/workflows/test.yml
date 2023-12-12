@@ -54,7 +54,7 @@ jobs:
         uses: actions/upload-artifact@v3.1.3
         with:
           name: testartifact
-          path: testartifact
+          path: /
 
      
       # - name: Download Old Artifact
