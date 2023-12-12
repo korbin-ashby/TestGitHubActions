@@ -48,6 +48,7 @@ jobs:
          connection-string: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
          name: testartifact${{ github.run_id }}.zip
          container: ghartifacts
+         path: testartifact.zip
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3.1.3
