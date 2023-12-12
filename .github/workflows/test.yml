@@ -26,7 +26,7 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: windows-2019
+    runs-on: ubuntu-latest
     environment: testing
     permissions:
       id-token: write
@@ -108,7 +108,7 @@ jobs:
         shell: pwsh
         run: |
           Expand-Archive -Path testartifact.zip -DestinationPath download
-          dir
+          ls -la
       # - name: Download Old Artifact
       #   uses: Legit-Labs/action-download-artifact@v2.18.0
       #   with:
