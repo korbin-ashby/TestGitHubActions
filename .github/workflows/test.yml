@@ -101,7 +101,7 @@ jobs:
           artifact_name="${{ steps.list-artifacts.outputs.second_newest_artifact }}"
           mkdir backend
 
-          az storage blob download --account-name $storage_account --container-name $container_name --name $artifact_name --sas-token $sas_token --file $artifact_name
+          az storage blob download --account-name $storage_account --container-name $container_name --name $artifact_name --sas-token $sas_token --file testartifact.zip
 
      
       # - name: Download Old Artifact
