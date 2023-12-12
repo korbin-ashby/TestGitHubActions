@@ -117,7 +117,7 @@ jobs:
       #     name: testartifact
       #     path: download/
 
-      - name: echo downloaded files
-        run: |
-          cat download/hello.txt
-          cat download/nestedDirectory/hello4.txt
+      # - name: echo downloaded files
+      #   run: |
+      #     cat download/hello.txt
+      #     cat download/nestedDirectory/hello4.txt
