@@ -40,7 +40,7 @@ jobs:
 
       - name: zip files
         shell: pwsh
-        run: Compress-Archive -Path testartifact -DestinationPath testartifact.zip
+        run: Compress-Archive -Path testartifact -DestinationPath testartifact${{ github.run_id }}.zip
 
       - name: Azure Upload
         uses: fixpoint/azblob-upload-artifact@v4
@@ -48,7 +48,7 @@ jobs:
          connection-string: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
          name: testartifact${{ github.run_id }}.zip
          container: ghartifacts
-         path: testartifact.zip
+         path: testartifact${{ github.run_id }}.zip
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3.1.3
