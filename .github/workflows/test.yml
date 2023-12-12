@@ -39,7 +39,7 @@ jobs:
           echo "Hello" > testartifact/nestedDirectory/hello4.txt
 
       - name: zip files
-        shell: powershell
+        shell: pwsh
         run: Compress-Archive -Path testartifact -DestinationPath testartifact.zip
 
       - name: Azure Upload
