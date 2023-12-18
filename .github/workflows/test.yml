@@ -104,6 +104,8 @@ jobs:
           $container_name="ghartifacts"
           $storage_account="ghactionsartifactskashby"
           $account_key="${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }}"
+          
+          echo "$second_newest_artifact"
 
           az storage blob download --account-name $storage_account --account-key $account_key --container-name $container_name --name $second_newest_artifact --file testartifact.zip
 
