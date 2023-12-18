@@ -66,6 +66,7 @@ jobs:
           
   downloadArtifacts:
     runs-on: windows-2019
+    environment: testing
     permissions:
       id-token: write
       contents: read
