@@ -78,9 +78,10 @@ jobs:
         run: |
           $container_name="ghartifacts"
           $storage_account="ghactionsartifactskashby"
+          $sas_token="${{ secrets.AZURE_STORAGE_ARTIFACT_SAS_TOKEN }}"
 
           # List blobs in the container
-          $artifacts=($(az storage blob list --account-name $storage_account --container-name $container_name --query "[].name" --output tsv))
+          $artifacts=($(az storage blob list --account-name $storage_account --container-name $container_name --sas-token $sas_token --query "[].name" --output tsv))
 
           # Sort artifacts by last modified time
           $sorted_artifacts=($artifacts | Sort-Object -Descending)
@@ -97,11 +98,12 @@ jobs:
           $container_name="ghartifacts"
           $storage_account="ghactionsartifactskashby"
           $artifact_name="$second_newest_artifact"
+          $sas_token="${{ secrets.AZURE_STORAGE_ARTIFACT_SAS_TOKEN }}"
           
           # Create the target directory if it doesn't exist
           New-Item -ItemType Directory -Force -Path backend
 
-          az storage blob download --account-name $storage_account --container-name $container_name --name $artifact_name --file testartifact.zip
+          az storage blob download --account-name $storage_account --container-name $container_name --name $artifact_name --sas-token $sas_token --file testartifact.zip
 
 
       - name: Extract Downloaded artifact
