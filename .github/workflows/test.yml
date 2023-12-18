@@ -22,8 +22,6 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
 
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
@@ -63,7 +61,6 @@ jobs:
       contents: read
     needs: [ build ]
     steps:
-      - uses: actions/checkout@v3
 
       - name: Azure Login
         uses: Azure/login@v1.5.1
@@ -103,14 +100,9 @@ jobs:
         shell: powershell
         run: |
           Expand-Archive -Path testartifact.zip -DestinationPath download
+          Remove-Item testartifact.zip
           dir
-      # - name: Download Old Artifact
-      #   uses: Legit-Labs/action-download-artifact@v2.18.0
-      #   with:
-      #     workflow: ${{ inputs.workflowYAML }}
-      #     run_number: ${{ inputs.runNumber }}
-      #     name: testartifact
-      #     path: download/
+
 
       - name: echo downloaded files
         shell: powershell
