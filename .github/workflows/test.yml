@@ -15,15 +15,6 @@ concurrency:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: test double environment
-        run: echo "Hello Environment"
-  # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
@@ -89,7 +80,7 @@ jobs:
           $storage_account="ghactionsartifactskashby"
 
           # List blobs in the container
-          $artifacts=($(az storage blob list --account-name $storage_account --container-name $container_name --sas-token $sas_token --query "[].name" --output tsv))
+          $artifacts=($(az storage blob list --account-name $storage_account --container-name $container_name --query "[].name" --output tsv))
 
           # Sort artifacts by last modified time
           $sorted_artifacts=($artifacts | Sort-Object -Descending)
@@ -110,7 +101,7 @@ jobs:
           # Create the target directory if it doesn't exist
           New-Item -ItemType Directory -Force -Path backend
 
-          az storage blob download --account-name $storage_account --container-name $container_name --name $artifact_name --sas-token $sas_token --file testartifact.zip
+          az storage blob download --account-name $storage_account --container-name $container_name --name $artifact_name --file testartifact.zip
 
 
       - name: Extract Downloaded artifact
