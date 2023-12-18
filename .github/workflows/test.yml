@@ -85,9 +85,9 @@ jobs:
       - name: List artifacts in Azure Storage
         id: list-artifacts
         run: |
-          container_name="ghartifacts"
-          storage_account="ghactionsartifactskashby"
-          sas_token="${{ secrets.AZURE_STORAGE_ARTIFACT_SAS_TOKEN }}"
+          $container_name="ghartifacts"
+          $storage_account="ghactionsartifactskashby"
+
           # List blobs in the container
           artifacts=($(az storage blob list --account-name $storage_account --container-name $container_name --sas-token $sas_token --query "[].name" --output tsv))
 
