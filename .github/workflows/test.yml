@@ -81,18 +81,13 @@ jobs:
           # List blobs in the container
           $artifacts=(az storage blob list --account-name $storage_account --account-key $account_key --container-name $container_name --query "[].name" --output tsv)
 
-          Write-Host "List"
-
           # Sort artifacts by last modified time
           $sorted_artifacts=($artifacts | Sort-Object -Descending)
 
-          Write-Host "Sort"
-
           # Extract the second newest artifact
           $second_newest_artifact=$sorted_artifacts[1]
-
-          Write-Host "second_newest_artifact=$second_newest_artifact"
-
+          
+          # Download the second newest artifact
           az storage blob download --account-name $storage_account --account-key $account_key --container-name $container_name --name $second_newest_artifact --file testartifact.zip
 
 
