@@ -80,8 +80,7 @@ jobs:
         run: |
           container_name="ghartifacts"
           storage_account="ghactionsartifactskashby"
-          sas_token="sp=racwdli&st=2023-12-12T21:44:01Z&se=2023-12-13T05:44:01Z&spr=https&sv=2022-11-02&sr=c&sig=wbrN0bYQNT2iSU0z9icpT8aRFxdQcYN%2FApk0xDWWIWc%3D"
-
+          sas_token="${{ secrets.AZURE_STORAGE_ARTIFACT_SAS_TOKEN }}"
           # List blobs in the container
           artifacts=($(az storage blob list --account-name $storage_account --container-name $container_name --sas-token $sas_token --query "[].name" --output tsv))
 
@@ -97,7 +96,7 @@ jobs:
         run: |
           container_name="ghartifacts"
           storage_account="ghactionsartifactskashby"
-          sas_token="sp=racwdli&st=2023-12-12T21:44:01Z&se=2023-12-13T05:44:01Z&spr=https&sv=2022-11-02&sr=c&sig=wbrN0bYQNT2iSU0z9icpT8aRFxdQcYN%2FApk0xDWWIWc%3D"
+          sas_token="${{ secrets.AZURE_STORAGE_ARTIFACT_SAS_TOKEN }}"
           artifact_name="$second_newest_artifact"
           mkdir backend
 
