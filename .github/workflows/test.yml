@@ -103,7 +103,7 @@ jobs:
         shell: powershell
         run: |
           Expand-Archive -Path testartifact.zip -DestinationPath download
-          ls -la download
+          dir
       # - name: Download Old Artifact
       #   uses: Legit-Labs/action-download-artifact@v2.18.0
       #   with:
