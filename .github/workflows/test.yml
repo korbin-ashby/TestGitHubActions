@@ -83,7 +83,7 @@ jobs:
 
           echo "$sas_token"
           # List blobs in the container
-          $artifacts=(az storage blob list --account-name $storage_account --container-name $container_name --sas-token '$sas_token' --query "[].name" --output tsv)
+          $artifacts=(az storage blob list --account-name $storage_account --container-name $container_name --query "[].name" --output tsv)
 
           Write-Host "List"
 
@@ -110,7 +110,7 @@ jobs:
           # Create the target directory if it doesn't exist
           New-Item -ItemType Directory -Force -Path backend
 
-          az storage blob download --account-name $storage_account --container-name $container_name --name $artifact_name --sas-token $sas_token --file testartifact.zip
+          az storage blob download --account-name $storage_account --container-name $container_name --name $artifact_name --file testartifact.zip
 
 
       - name: Extract Downloaded artifact
