@@ -96,7 +96,7 @@ jobs:
 
           Write-Host "second_newest_artifact=$second_newest_artifact"
 
-          echo "##vso[task.setvariable variable=second_newest_artifact;isOutput=true]$second_newest_artifact"
+          echo "second_newest_artifact=$second_newest_artifact" >> "$GITHUB_OUTPUT"
 
       
       - name: Download second newest artifact
