@@ -84,8 +84,12 @@ jobs:
           # List blobs in the container
           $artifacts=(az storage blob list --account-name $storage_account --container-name $container_name --sas-token $sas_token --query "[].name" --output tsv)
 
+          Write-Host "List"
+
           # Sort artifacts by last modified time
           $sorted_artifacts=($artifacts | Sort-Object -Descending)
+
+          Write-Host "Sort"
 
           # Extract the second newest artifact
           $second_newest_artifact=$sorted_artifacts[1]
