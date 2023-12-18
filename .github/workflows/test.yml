@@ -96,17 +96,13 @@ jobs:
 
           Write-Host "second_newest_artifact=$second_newest_artifact"
 
-          echo "second_newest_artifact=$second_newest_artifact" >> "$GITHUB_OUTPUT"
+          echo "second_newest_artifact=$second_newest_artifact" >> "$GITHUB_ENV"
 
       
       - name: Download second newest artifact
         run: |
-          $container_name="ghartifacts"
-          $storage_account="ghactionsartifactskashby"
-          $artifact_name="${{ steps.list-artifacts.outputs.second_newest_artifact }}"
-          $account_key="${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }}"
 
-          az storage blob download --account-name $storage_account --account-key $account_key --container-name $container_name --name $artifact_name --file testartifact.zip
+          az storage blob download --account-name $storage_account --account-key $account_key --container-name $container_name --name $second_newest_artifact --file testartifact.zip
 
 
       - name: Extract Downloaded artifact
