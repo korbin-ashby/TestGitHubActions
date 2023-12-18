@@ -28,9 +28,6 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     environment: testing
-    permissions:
-      id-token: write
-      contents: read
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -69,6 +66,9 @@ jobs:
           
   downloadArtifacts:
     runs-on: windows-2019
+    permissions:
+      id-token: write
+      contents: read
     needs: [ build ]
     steps:
       - uses: actions/checkout@v3
