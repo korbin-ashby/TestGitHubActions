@@ -75,27 +75,26 @@ jobs:
 
 
       - name: List artifacts in Azure Storage
-        uses: azure/CLI@v1
-        with:
-          azcliversion: latest
-          inlineScript: |
-            $container_name="ghartifacts"
-            $storage_account="ghactionsartifactskashby"
-            $sas_token="${{ secrets.AZURE_STORAGE_ARTIFACT_SAS_TOKEN }}"
-  
-            # List blobs in the container
-            $artifacts=(az storage blob list --account-name $storage_account --container-name $container_name --sas-token $sas_token --query "[].name" --output tsv)
-  
-            # Sort artifacts by last modified time
-            $sorted_artifacts=($artifacts | Sort-Object -Descending)
-  
-            # Extract the second newest artifact
-            $second_newest_artifact=$sorted_artifacts[1]
-  
-            Write-Host "second_newest_artifact=$second_newest_artifact"
-  
-            echo "##vso[task.setvariable variable=second_newest_artifact;isOutput=true]$second_newest_artifact"
- 
+        id: list-artifacts
+        run: |
+          $container_name="ghartifacts"
+          $storage_account="ghactionsartifactskashby"
+          $sas_token="${{ secrets.AZURE_STORAGE_ARTIFACT_SAS_TOKEN }}"
+
+          # List blobs in the container
+          $artifacts=(az storage blob list --account-name $storage_account --container-name $container_name --sas-token $sas_token --query "[].name" --output tsv)
+
+          # Sort artifacts by last modified time
+          $sorted_artifacts=($artifacts | Sort-Object -Descending)
+
+          # Extract the second newest artifact
+          $second_newest_artifact=$sorted_artifacts[1]
+
+          Write-Host "second_newest_artifact=$second_newest_artifact"
+
+          echo "##vso[task.setvariable variable=second_newest_artifact;isOutput=true]$second_newest_artifact"
+
+      
       - name: Download second newest artifact
         run: |
           $container_name="ghartifacts"
