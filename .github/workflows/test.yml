@@ -66,6 +66,12 @@ jobs:
         with:
           name: testartifact
           path: testartifact
+          
+  downloadArtifacts:
+    runs-on: windows-2019
+    needs: [ build ]
+    steps:
+      - uses: actions/checkout@v3
 
       - name: Azure Login
         uses: Azure/login@v1.5.1
@@ -85,12 +91,14 @@ jobs:
           artifacts=($(az storage blob list --account-name $storage_account --container-name $container_name --sas-token $sas_token --query "[].name" --output tsv))
 
           # Sort artifacts by last modified time
-          IFS=$'\n' sorted_artifacts=($(sort -r <<<"${artifacts[*]}"))
+          $sorted_artifacts=($artifacts | Sort-Object -Descending)
 
           # Extract the second newest artifact
-          second_newest_artifact="${sorted_artifacts[1]}"
+          $second_newest_artifact=$sorted_artifacts[1]
 
-          echo "second_newest_artifact=$second_newest_artifact" >> $GITHUB_ENV
+          Write-Host "second_newest_artifact=$second_newest_artifact"
+
+          echo "##vso[task.setvariable variable=second_newest_artifact;isOutput=true]$second_newest_artifact"
  
       - name: Download second newest artifact
         run: |
@@ -98,13 +106,15 @@ jobs:
           storage_account="ghactionsartifactskashby"
           sas_token="${{ secrets.AZURE_STORAGE_ARTIFACT_SAS_TOKEN }}"
           artifact_name="$second_newest_artifact"
-          mkdir backend
+          
+          # Create the target directory if it doesn't exist
+          New-Item -ItemType Directory -Force -Path backend
 
           az storage blob download --account-name $storage_account --container-name $container_name --name $artifact_name --sas-token $sas_token --file testartifact.zip
 
 
       - name: Extract Downloaded artifact
-        shell: pwsh
+        shell: powershell
         run: |
           Expand-Archive -Path testartifact.zip -DestinationPath download
           ls -la download
@@ -117,6 +127,7 @@ jobs:
       #     path: download/
 
       - name: echo downloaded files
+        shell: powershell
         run: |
           cat download/hello.txt
           cat download/nestedDirectory/hello4.txt
