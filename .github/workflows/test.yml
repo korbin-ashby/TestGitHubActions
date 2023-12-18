@@ -103,7 +103,7 @@ jobs:
         run: |
           $container_name="ghartifacts"
           $storage_account="ghactionsartifactskashby"
-          $artifact_name="$second_newest_artifact"
+          $artifact_name="${{ steps.list-artifacts.outputs.second_newest_artifact }}
           $account_key="${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }}"
 
           az storage blob download --account-name $storage_account --account-key $account_key --container-name $container_name --name $artifact_name --file testartifact.zip
