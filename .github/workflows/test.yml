@@ -83,7 +83,7 @@ jobs:
 
           echo "$sas_token"
           # List blobs in the container
-          $artifacts=(az storage blob list --account-name $storage_account --connection-string "BlobEndpoint=https://ghactionsartifactskashby.blob.core.windows.net/;QueueEndpoint=https://ghactionsartifactskashby.queue.core.windows.net/;FileEndpoint=https://ghactionsartifactskashby.file.core.windows.net/;TableEndpoint=https://ghactionsartifactskashby.table.core.windows.net/;SharedAccessSignature=sv=2022-11-02&ss=b&srt=sco&sp=rwdlaciytfx&se=2023-12-19T04:49:25Z&st=2023-12-18T20:49:25Z&spr=https&sig=FYJNLtmQkK2Y1s7JqiYQvMUB1Xn20%2FwY3bI%2Fc7l5epM%3D" --container-name $container_name --query "[].name" --output tsv)
+          $artifacts=(az storage blob list --account-name $storage_account --connection-string 'BlobEndpoint=https://ghactionsartifactskashby.blob.core.windows.net/;QueueEndpoint=https://ghactionsartifactskashby.queue.core.windows.net/;FileEndpoint=https://ghactionsartifactskashby.file.core.windows.net/;TableEndpoint=https://ghactionsartifactskashby.table.core.windows.net/;SharedAccessSignature=sv=2022-11-02&ss=b&srt=sco&sp=rwdlaciytfx&se=2023-12-19T04:49:25Z&st=2023-12-18T20:49:25Z&spr=https&sig=FYJNLtmQkK2Y1s7JqiYQvMUB1Xn20%2FwY3bI%2Fc7l5epM%3D' --container-name $container_name --query "[].name" --output tsv)
 
           Write-Host "List"
 
