@@ -39,7 +39,9 @@ jobs:
           echo "Hello" > testartifact/nestedDirectory/hello4.txt
 
       - name: zip files
-        run: zip -r testartifact${{ github.run_id }}.zip testartifact/*
+        run: |
+          cd testartifact
+          zip -r ../testartifact${{ github.run_id }}.zip .
         
       - name: Azure Login
         uses: Azure/login@v1.5.1
