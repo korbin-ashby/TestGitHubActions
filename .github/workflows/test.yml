@@ -37,14 +37,30 @@ jobs:
 
       - name: zip files
         run: zip -r testartifact${{ github.run_id }}.zip testartifact
-
-      - name: Azure Upload
-        uses: fixpoint/azblob-upload-artifact@v4
+        
+      - name: Azure Login
+        uses: Azure/login@v1.5.1
         with:
-         connection-string: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
-         name: backend
-         container: ghartifacts
-         path: testartifact${{ github.run_id }}.zip
+          client-id: ${{ secrets.AZURE_CLIENT_ID_ARTIFACTS }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID_ARTIFACTS }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID_ARTIFACTS }}
+
+      - name: Upload Artifact to Azure
+        id: azure-upload-artifact
+        run: |
+          $container_name="ghartifacts"
+          $storage_account="ghactionsartifactskashby"
+          $account_key="${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }}"
+          
+          az storage blob upload --account-name $storage_account --container-name $container_name --name testartifact${{ github.run_id }}.zip --type block --content-type application/zip --account-key $account_key --file testartifact${{ github.run_id }}.zip
+
+      # - name: Azure Upload
+      #   uses: fixpoint/azblob-upload-artifact@v4
+      #   with:
+      #    connection-string: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
+      #    name: backend
+      #    container: ghartifacts
+      #    path: testartifact${{ github.run_id }}.zip
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3.1.3
