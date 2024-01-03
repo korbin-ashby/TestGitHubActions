@@ -36,8 +36,7 @@ jobs:
           echo "Hello" > testartifact/nestedDirectory/hello4.txt
 
       - name: zip files
-        shell: pwsh
-        run: Compress-Archive -Path testartifact\* -DestinationPath testartifact${{ github.run_id }}.zip
+        run: zip -r testartifact${{ github.run_id }}.zip testartifact
 
       - name: Azure Upload
         uses: fixpoint/azblob-upload-artifact@v4
