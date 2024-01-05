@@ -54,7 +54,7 @@ jobs:
         id: azure-upload-artifact
         run: |
           container_name="ghartifacts"
-          storage_account="ghactionsartifactskashby"
+          storage_account="kashbystorageaccount"
           account_key="${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }}"
           
           az storage blob upload --account-name $storage_account --container-name $container_name --name testartifact${{ github.run_id }}.zip --type block --content-type application/zip --account-key $account_key --file testartifact${{ github.run_id }}.zip
@@ -95,7 +95,7 @@ jobs:
         id: download-azure-artifacts
         run: |
           $container_name="ghartifacts"
-          $storage_account="ghactionsartifactskashby"
+          $storage_account="kashbystorageaccount"
           $account_key="${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }}"
           
           # List blobs in the container
