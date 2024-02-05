@@ -1,0 +1,58 @@
+name: Revert Prod (Test)
+
+on:
+  workflow_dispatch:
+    inputs:
+      commitSha:
+        description: "Commit Hash to Deploy"
+        required: true
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-manual-deploy
+  cancel-in-progress: true
+
+jobs:
+  downloadArtifacts:
+    runs-on: windows-2019
+    environment: test-secondary
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+
+      - name: Azure Login
+        uses: Azure/login@v1.5.1
+        with:
+          client-id: ${{ secrets.AZURE_ARTIFACTS_CLIENT_ID}}
+          tenant-id: ${{ secrets.AZURE_ARTIFACTS_TENANT_ID}}
+          subscription-id: ${{ secrets.AZURE_ARTIFACTS_SUBSCRIPTION_ID}}
+          enable-AzPSSession: true
+
+      - name: Create obj/Release/Package directory
+        shell: powershell
+        run: |
+          mkdir Reward54\Reward54\obj
+          mkdir Reward54\Reward54\obj\Release
+          mkdir Reward54\Reward54\obj\Release\Package
+
+      - name: Download 2nd Newest Azure Artifact
+        run: |
+          $container_name="${{ vars.AZURE_ARTIFACTS_BACKEND_STORAGE_CONTAINER }}"
+          $storage_account="${{ vars.AZURE_ARTIFACTS_STORAGE_ACCOUNT }}"
+          $account_key="${{ secrets.AZURE_ARTIFACTS_STORAGE_ACCOUNT_KEY }}"
+          
+          # List blobs in the containers
+          $artifacts=(az storage blob list --account-name $storage_account --account-key $account_key --container-name $container_name --query "[].name" --output tsv)
+
+          # Sort artifacts by last modified time
+          $sorted_artifacts=($artifacts | Sort-Object -Descending)
+
+          # Extract the second newest artifacts
+          $second_newest_artifact=$sorted_artifacts[1]          
+          
+          # Download the second newest artifacts
+          az storage blob download --account-name $storage_account --account-key $account_key --container-name $container_name --name $second_newest_artifact --file Reward54\Reward54\obj\Release\Package\Reward54.zip
+
+      - name: Deploy application to test server
+        shell: powershell
+        run: .\Reward54.deploy.cmd /Y /M:https://awardco-test-beta.scm.azurewebsites.net/MSDeploy.axd /A:Basic /U:'$awardco-test__beta' /P:${{ secrets.AZURE_ARTIFACTS_DEPLOY_PWD }}
