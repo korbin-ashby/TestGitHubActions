@@ -50,8 +50,8 @@ jobs:
         shell: powershell
         working-directory: ./Reward54/Reward54/obj/Release/Package
         run: |
-        dir
-        Expand-Archive -Path Reward54.zip -DestinationPath Reward54-zip
+          dir
+          Expand-Archive -Path Reward54.zip -DestinationPath Reward54-zip
 
       - name: Deploy application to test server
         shell: powershell
