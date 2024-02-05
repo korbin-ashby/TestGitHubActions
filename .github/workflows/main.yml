@@ -35,23 +35,14 @@ jobs:
           mkdir Reward54\Reward54\obj\Release
           mkdir Reward54\Reward54\obj\Release\Package
 
-      - name: Download 2nd Newest Azure Artifact
+      - name: Download Azure Artifact
         run: |
           $container_name="${{ vars.AZURE_ARTIFACTS_BACKEND_STORAGE_CONTAINER }}"
           $storage_account="${{ vars.AZURE_ARTIFACTS_STORAGE_ACCOUNT }}"
           $account_key="${{ secrets.AZURE_ARTIFACTS_STORAGE_ACCOUNT_KEY }}"
           
-          # List blobs in the containers
-          $artifacts=(az storage blob list --account-name $storage_account --account-key $account_key --container-name $container_name --query "[].name" --output tsv)
-
-          # Sort artifacts by last modified time
-          $sorted_artifacts=($artifacts | Sort-Object -Descending)
-
-          # Extract the second newest artifacts
-          $second_newest_artifact=$sorted_artifacts[1]          
-          
           # Download the second newest artifacts
-          az storage blob download --account-name $storage_account --account-key $account_key --container-name $container_name --name $second_newest_artifact --file Reward54\Reward54\obj\Release\Package\Reward54.zip
+          az storage blob download --account-name $storage_account --account-key $account_key --container-name $container_name --name ${{ inputs.commitSha }}/Reward54.zip --file Reward54\Reward54\obj\Release\Package\Reward54.zip
 
       - name: Deploy application to test server
         shell: powershell
