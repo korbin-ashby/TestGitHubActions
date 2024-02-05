@@ -1,4 +1,4 @@
-name: Revert Prod (Test)
+name: Manual Deploy
 
 on:
   workflow_dispatch:
