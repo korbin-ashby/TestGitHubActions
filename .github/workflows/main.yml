@@ -46,6 +46,10 @@ jobs:
           az storage blob download --account-name $storage_account --account-key $account_key --container-name $container_name --name ${{ inputs.commitSha }}/Reward54.deploy.cmd --file Reward54.deploy.cmd
           az storage blob download --account-name $storage_account --account-key $account_key --container-name $container_name --name ${{ inputs.commitSha }}/Reward54.SetParameters.xml --file Reward54.SetParameters.xml
 
+      - name: Expand Reward54.zip
+        shell: powershell
+        working-directory: ./Reward54/Reward54/obj/Release/Package
+        run: Expand-Archive -Path Reward54.zip -DestinationPath Reward54-zip
 
       - name: Deploy application to test server
         shell: powershell
