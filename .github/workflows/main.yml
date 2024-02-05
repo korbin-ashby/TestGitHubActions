@@ -42,7 +42,8 @@ jobs:
           $account_key="${{ secrets.AZURE_ARTIFACTS_STORAGE_ACCOUNT_KEY }}"
           
           # Download the second newest artifacts
-          az storage blob download --account-name $storage_account --account-key $account_key --container-name $container_name --name ${{ inputs.commitSha }}/Reward54.zip --file Reward54\Reward54\obj\Release\Package\Reward54.zip
+          az storage blob download --account-name $storage_account --account-key $account_key --container-name $container_name --name ${{ inputs.commitSha }}/Reward54.zip --file Reward54.zip
+          az storage blob download --account-name $storage_account --account-key $account_key --container-name $container_name --name ${{ inputs.commitSha }}/Reward54.deploy.cmd --file Reward54.deploy.cmd
 
       - name: Deploy application to test server
         shell: powershell
