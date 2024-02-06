@@ -1,4 +1,4 @@
-name: Manual Deploy
+name: Manual Deploy - Prod
 
 on:
   workflow_dispatch:
@@ -8,7 +8,7 @@ on:
         required: true
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}-manual-deploy
+  group: ${{ github.workflow }}-${{ github.ref }}-deploy
   cancel-in-progress: true
 
 jobs:
@@ -33,10 +33,10 @@ jobs:
           $storage_account="${{ vars.AZURE_ARTIFACTS_STORAGE_ACCOUNT }}"
           $account_key="${{ secrets.AZURE_ARTIFACTS_STORAGE_ACCOUNT_KEY }}"
           
-          # Download the second newest artifacts
+          # Download artifacts
           az storage blob download --account-name $storage_account --account-key $account_key --container-name $container_name --name ${{ inputs.commitSha }}/Reward54.zip --file Reward54.zip
-          az storage blob download --account-name $storage_account --account-key $account_key --container-name $container_name --name ${{ inputs.commitSha }}/Reward54.deploy.cmd --file Reward54.deploy.cmd
-          az storage blob download --account-name $storage_account --account-key $account_key --container-name $container_name --name ${{ inputs.commitSha }}/Reward54.SetParameters.xml --file Reward54.SetParameters.xml
+          az storage blob download --account-name $storage_account --account-key $account_key --container-name $container_name --name Reward54.deploy.cmd --file Reward54.deploy.cmd
+          az storage blob download --account-name $storage_account --account-key $account_key --container-name $container_name --name Reward54.SetParameters.xml --file Reward54.SetParameters.xml
 
       - name: Deploy application to test server
         shell: powershell
