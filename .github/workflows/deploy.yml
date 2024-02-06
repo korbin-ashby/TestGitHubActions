@@ -36,10 +36,10 @@ jobs:
           $sorted_artifacts=($artifacts | Sort-Object -Descending)
           
           # Extract the second newest artifact
-          $second_newest_artifact=$sorted_artifacts[1]
+          $newest_artifact=$sorted_artifacts[0]
           
           # Download the second newest artifact
-          az storage blob download --account-name $storage_account --account-key $account_key --container-name $container_name --name $second_newest_artifact --file Reward54.zip
+          az storage blob download --account-name $storage_account --account-key $account_key --container-name $container_name --name $newest_artifact --file Reward54.zip
           az storage blob download --account-name $storage_account --account-key $account_key --container-name $container_name --name Reward54.deploy.cmd --file Reward54.deploy.cmd
           az storage blob download --account-name $storage_account --account-key $account_key --container-name $container_name --name Reward54.SetParameters.xml --file Reward54.SetParameters.xml
 
