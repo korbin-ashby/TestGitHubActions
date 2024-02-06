@@ -30,7 +30,7 @@ jobs:
           $account_key="${{ secrets.AZURE_ARTIFACTS_STORAGE_ACCOUNT_KEY }}"
           
           # List blobs in the container
-          $artifacts=(az storage blob list --account-name $storage_account --account-key $account_key --container-name $container_name --prefix Reward54.z--query "[].name" --output tsv)
+          $artifacts=(az storage blob list --account-name $storage_account --account-key $account_key --container-name $container_name --prefix Reward54.z --query "[].name" --output tsv)
 
           # Sort artifacts by last modified time
           $sorted_artifacts=($artifacts | Sort-Object -Descending)
