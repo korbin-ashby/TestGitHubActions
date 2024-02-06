@@ -35,9 +35,11 @@ jobs:
           
           # Sort artifacts by last modified time
           $sorted_artifacts=($artifacts | Sort-Object -Descending)
+          echo $sorted_artifacts
           
           # Extract the second newest artifact
           $newest_artifact=$sorted_artifacts[0]
+          echo $newest_artifact
           
           # Download the second newest artifact
           az storage blob download --account-name $storage_account --account-key $account_key --container-name $container_name --name $newest_artifact --file Reward54.zip
