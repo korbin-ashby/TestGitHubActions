@@ -27,18 +27,17 @@ jobs:
         run: |
           $container_name="${{ vars.AZURE_ARTIFACTS_BACKEND_STORAGE_CONTAINER }}"
           $storage_account="${{ vars.AZURE_ARTIFACTS_STORAGE_ACCOUNT }}"
-          $account_key="${{ secrets.AZURE_ARTIFACTS_STORAGE_ACCOUNT_KEY }}"
           
           # List blobs in the container
-          az storage blob list --account-name $storage_account --container-name $container_name --query "[].{Name:name, LastModified:properties.lastModified}" --output json | Out-File -FilePath blobs.json -Encoding utf8
+          az storage blob list --account-name $storage_account --auth-mode login --container-name $container_name --query "[].{Name:name, LastModified:properties.lastModified}" --output json | Out-File -FilePath blobs.json -Encoding utf8
 
           # Get the newest artifact
           $newest_file = (Get-Content blobs.json | ConvertFrom-Json | Sort-Object -Property LastModified -Descending | Select-Object -First 1).Name
 
           # Download the newest artifact
-          az storage blob download --account-name $storage_account --account-key $account_key --container-name $container_name --name $newest_file --file Reward54.zip
-          az storage blob download --account-name $storage_account --account-key $account_key --container-name $container_name --name Reward54.deploy.cmd --file Reward54.deploy.cmd
-          az storage blob download --account-name $storage_account --account-key $account_key --container-name $container_name --name Reward54.SetParameters.xml --file Reward54.SetParameters.xml
+          az storage blob download --account-name $storage_account --auth-mode login --container-name $container_name --name $newest_file --file Reward54.zip
+          az storage blob download --account-name $storage_account --auth-mode login --container-name $container_name --name Reward54.deploy.cmd --file Reward54.deploy.cmd
+          az storage blob download --account-name $storage_account --auth-mode login --container-name $container_name --name Reward54.SetParameters.xml --file Reward54.SetParameters.xml
 
       - name: Deploy application to test server
         shell: powershell
