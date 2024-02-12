@@ -1,4 +1,4 @@
-name: Manual Deploy - Prod
+name: Manual Deploy Prod
 
 on:
   workflow_dispatch:
@@ -15,17 +15,8 @@ jobs:
   deploy-application:
     runs-on: windows-2019
     environment: test-secondary
-    permissions:
-      id-token: write
-      contents: read
-    steps:
 
-      - name: Azure Login
-        uses: Azure/login@v1.5.1
-        with:
-          client-id: ${{ secrets.AZURE_ARTIFACTS_CLIENT_ID}}
-          tenant-id: ${{ secrets.AZURE_ARTIFACTS_TENANT_ID}}
-          subscription-id: ${{ secrets.AZURE_ARTIFACTS_SUBSCRIPTION_ID}}
+    steps:
 
       - name: Download Azure Artifact
         run: |
