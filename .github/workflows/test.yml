@@ -124,3 +124,56 @@ jobs:
         run: |
           cat download/hello.txt
           cat download/nestedDirectory/hello4.txt
+          
+  downloadArtifacts2:
+    runs-on: windows-2019
+    environment: testing
+    permissions:
+      id-token: write
+      contents: read
+    needs: [ build ]
+    steps:
+
+      - name: Azure Login
+        uses: Azure/login@v1.5.1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID_ARTIFACTS }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID_ARTIFACTS }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID_ARTIFACTS }}
+          enable-AzPSSession: true
+
+
+      - name: Download 2nd Newest Azure Artifact
+        id: download-azure-artifacts
+        run: |
+          $container_name="ghartifacts"
+          $storage_account="kashbystorageaccount"
+          $account_key="${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }}"
+          
+          # List blobs in the container
+          $artifacts=(az storage blob list --account-name $storage_account --account-key $account_key --container-name $container_name --query "[].name" --output tsv)
+
+          # Sort artifacts by last modified time
+          $sorted_artifacts=($artifacts | Sort-Object -Descending)
+
+          # Extract the second newest artifact
+          $second_newest_artifact=$sorted_artifacts[1]
+          
+          # Download the second newest artifact
+          az storage blob download --account-name $storage_account --account-key $account_key --container-name $container_name --name $second_newest_artifact --file testartifact.zip
+
+
+      - name: Extract Downloaded artifact
+        shell: powershell
+        run: |
+          Expand-Archive -Path testartifact.zip -DestinationPath download
+          Remove-Item testartifact.zip
+          dir
+
+
+      - name: echo downloaded files
+        shell: powershell
+        run: |
+          cat download/hello.txt
+          cat download/nestedDirectory/hello4.txt
+
