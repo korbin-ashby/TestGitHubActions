@@ -26,6 +26,7 @@ jobs:
 
           # Get the newest artifact
           $newest_file = (Get-Content blobs.json | ConvertFrom-Json | Sort-Object -Property LastModified -Descending | Select-Object -First 1).Name
+          echo $newest_file
           echo "newest_file=$newest_file" >> $Env:GITHUB_OUTPUT
 
 
