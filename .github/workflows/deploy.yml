@@ -13,9 +13,10 @@ jobs:
     runs-on: windows-2019
     environment: test-secondary
     outputs:
-      newest_file: ${{ steps.get-newest-artifact.outputs.newest_file }}
+      newest_file: ${{ steps.get-artifact-name.outputs.newest_file }}
     steps:
       - name: Get Artifact Name
+        id: get-artifact-name
         run: |
           $container_name="${{ vars.AZURE_ARTIFACTS_BACKEND_STORAGE_CONTAINER }}"
           $storage_account="${{ vars.AZURE_ARTIFACTS_STORAGE_ACCOUNT }}"
