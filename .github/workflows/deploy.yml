@@ -9,7 +9,7 @@ concurrency:
 
 jobs:
 
-  get-newest-artifact:
+  get-newest-artifact-name:
     runs-on: windows-2019
     environment: test-secondary
     outputs:
@@ -27,14 +27,13 @@ jobs:
 
           # Get the newest artifact
           $newest_file = (Get-Content blobs.json | ConvertFrom-Json | Sort-Object -Property LastModified -Descending | Select-Object -First 1).Name
-          echo $newest_file
           echo "newest_file=$newest_file" >> $Env:GITHUB_OUTPUT
 
 
   deploy-application:
     runs-on: windows-2019
     environment: test-secondary
-    needs: get-newest-artifact
+    needs: [ get-newest-artifact-name ]
     steps:
 
       - name: Download Azure Artifact
@@ -44,7 +43,7 @@ jobs:
           $account_key="${{ secrets.AZURE_ARTIFACTS_STORAGE_ACCOUNT_KEY }}"
 
           # Download the newest artifact
-          az storage blob download --account-name $storage_account --account-key $account_key --container-name $container_name --name ${{needs.get-newest-artifact.outputs.newest_file}} --file Reward54.zip
+          az storage blob download --account-name $storage_account --account-key $account_key --container-name $container_name --name ${{needs.get-newest-artifact-name.outputs.newest_file}} --file Reward54.zip
           az storage blob download --account-name $storage_account --account-key $account_key --container-name $container_name --name Reward54.deploy.cmd --file Reward54.deploy.cmd
           az storage blob download --account-name $storage_account --account-key $account_key --container-name $container_name --name Reward54.SetParameters.xml --file Reward54.SetParameters.xml
 
