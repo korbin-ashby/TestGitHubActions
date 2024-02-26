@@ -30,4 +30,3 @@ jobs:
             --resource-group awardco-github-testing `
             --slot beta `
             --target-slot production `
-            --slot-swap-warmup-delay 60
