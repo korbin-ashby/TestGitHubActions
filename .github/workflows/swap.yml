@@ -25,9 +25,9 @@ jobs:
 
       - name: Swap deployment slots
         run: |
-          az webapp deployment slot swap \
-            --name awardco-autoswap \
-            --resource-group awardco-github-testing \
-            --slot1 beta \
-            --slot2 production \
+          az webapp deployment slot swap `
+            --name awardco-autoswap `
+            --resource-group awardco-github-testing `
+            --slot1 beta `
+            --slot2 production `
             --slot-swap-warmup-delay 60
