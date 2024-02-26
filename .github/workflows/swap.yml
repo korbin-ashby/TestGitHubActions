@@ -1,0 +1,33 @@
+name: Manual Deploy Prod
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-swap
+  cancel-in-progress: true
+
+jobs:
+  swap-slots:
+    runs-on: windows-2019
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+
+      - name: Azure login
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID_ARTIFACTS }}
+          tenant-id: ${{ secrets.AZURE_ARTIFACTS_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_ARTIFACTS_SUBSCRIPTION_ID }}
+
+      - name: Swap deployment slots
+        run: |
+          az webapp deployment slot swap \
+            --name awardco-autoswap \
+            --resource-group awardco-github-testing \
+            --slot1 beta \
+            --slot2 production \
+            --slot-swap-warmup-delay 60
