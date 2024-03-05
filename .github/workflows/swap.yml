@@ -29,4 +29,4 @@ jobs:
             --name kashby-web-app `
             --resource-group kashby-web-app `
             --slot beta `
-            --target-slot production `
+            --target-slot production
