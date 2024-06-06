@@ -43,3 +43,11 @@ jobs:
         run: |
           cd testartifact
           zip -r ../testartifact${{ github.run_id }}.zip .
+
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+    environment: testbranchdeployments
+    steps:
+      - name: requires build
+        run: echo "hello world"
