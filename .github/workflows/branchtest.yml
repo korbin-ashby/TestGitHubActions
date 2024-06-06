@@ -1,0 +1,45 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # push:
+  #   branches: [ main ]
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+    branches: main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    environment: testing
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+
+      # Runs a set of commands using the runners shell
+      - name: Create Artifact Files
+        run: |
+          mkdir testartifact
+          mkdir testartifact/nestedDirectory
+          touch testartifact/nestedDirectory/hello4.txt
+          touch testartifact/hello.txt
+          touch testartifact/hello2.txt
+          echo "Hello" > testartifact/hello.txt
+          echo "Hello" > testartifact/hello2.txt
+          echo "Hello" > testartifact/nestedDirectory/hello4.txt
+
+      - name: Zip Artifact Files
+        run: |
+          cd testartifact
+          zip -r ../testartifact${{ github.run_id }}.zip .
